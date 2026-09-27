@@ -51,4 +51,31 @@
     if (($maxDias - $dias) < RETRASO_LEVE) {
         echo "<br>Retraso grave";
     }
+
+    // 6.Calcula una penalización de 0,50 € por cada día de retraso.
+    // 7. Muestra una frase completa usando interpolación o concatenación.
+    $diasRetraso = $dias - $maxDias;
+    $penalizacion = $diasRetraso * 0.50;
+    if ($penalizacion < 0) {
+        echo "<br>No hay penalización, aún estás dentro del plazo.";
+    }
+    else {
+        echo "<br>La penalización es de: " . $penalizacion . " €";
+    }
+
+    // 8. Genera con un bucle una lista de los días de retraso, pero no muestres más de 10 líneas. Si hay más retraso, añade «…» al final.
+    for ($i = 1; $i <= $diasRetraso && $i <= 10; $i++) {
+        echo "<br>Día de retraso: $i";
+    }
+
+    if ($diasRetraso > 10) {
+        echo "<br>...";
+    }
+
+    // 9. Escapa cualquier texto procedente de la URL antes de incluirlo en HTML.
+    $tipoHTML = htmlspecialchars($tipo);
+    $renovacionHTML = htmlspecialchars($renovacion);
+
+    echo "<br><br>Tipo de usuario: $tipoHTML";
+    echo "<br>Renovación: $renovacionHTML";
 ?>
