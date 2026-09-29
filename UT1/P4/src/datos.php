@@ -1,0 +1,78 @@
+<?php
+
+declare(strict_types=1);
+
+$libros = [
+    [
+        'id' => 1,
+        'titulo' => 'El nombre del viento',
+        'autor' => 'Patrick Rothfuss',
+        'genero' => 'fantasia',
+        'paginas' => 872,
+        'disponible' => true,
+        'fechaAlta' => '2026-01-15',
+    ],
+    [
+        'id' => 2,
+        'titulo' => 'Dune',
+        'autor' => 'Frank Herbert',
+        'genero' => 'ciencia ficcion',
+        'paginas' => 784,
+        'disponible' => true,
+        'fechaAlta' => '2025-12-10',
+    ],
+    [
+        'id' => 3,
+        'titulo' => 'El Hobbit',
+        'autor' => 'J. R. R. Tolkien',
+        'genero' => 'fantasia',
+        'paginas' => 310,
+        'disponible' => false,
+        'fechaAlta' => '2026-02-20',
+    ],
+    [
+        'id' => 4,
+        'titulo' => 'Fundación',
+        'autor' => 'Isaac Asimov',
+        'genero' => 'ciencia ficcion',
+        'paginas' => 256,
+        'disponible' => true,
+        'fechaAlta' => '2026-03-05',
+    ],
+    [
+        'id' => 5,
+        'titulo' => 'La sombra del viento',
+        'autor' => 'Carlos Ruiz Zafón',
+        'genero' => 'misterio',
+        'paginas' => 576,
+        'disponible' => true,
+        'fechaAlta' => '2026-04-12',
+    ],
+    [
+        'id' => 6,
+        'titulo' => 'Mistborn: El imperio final',
+        'autor' => 'Brandon Sanderson',
+        'genero' => 'fantasia',
+        'paginas' => 672,
+        'disponible' => true,
+        'fechaAlta' => '2026-05-08',
+    ],
+    [
+        'id' => 7,
+        'titulo' => '1984',
+        'autor' => 'George Orwell',
+        'genero' => 'distopia',
+        'paginas' => 352,
+        'disponible' => false,
+        'fechaAlta' => '2026-06-18',
+    ],
+    [
+        'id' => 8,
+        'titulo' => 'Proyecto Hail Mary',
+        'autor' => 'Andy Weir',
+        'genero' => 'ciencia ficcion',
+        'paginas' => 544,
+        'disponible' => true,
+        'fechaAlta' => '2026-07-01',
+    ],
+];
