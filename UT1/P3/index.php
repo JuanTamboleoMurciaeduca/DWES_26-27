@@ -6,12 +6,12 @@ const LIMITE_LEVE = 5;
 const PENALIZACION_RETRASO = 0.5;
 
 $tipo = strtolower(trim((string) ($_GET['tipo'] ?? 'externo')));
-$tipo = !in_array($tipo, ['alumno', 'profesor', 'externo'], true) ? $tipo : 'externo';
+$tipo = in_array($tipo, ['alumno', 'profesor', 'externo'], true) ? $tipo : 'externo';
 
 $dias = max(0, (int) ($_GET['dias'] ?? 0));
 
 $renovacion = strtolower(trim((string) ($_GET['renovacion'] ?? 'no')));
-$renovacion = !in_array($renovacion, ['si', 'no'], true) ? $renovacion : 'no';
+$renovacion = in_array($renovacion, ['si', 'no'], true) ? $renovacion : 'no';
 
 $maximoDias = match ($tipo) {
     'alumno' => 15,

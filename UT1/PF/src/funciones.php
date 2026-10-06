@@ -41,8 +41,8 @@ function buscarPorTexto(array $libros, string $texto): array
 
     foreach ($libros as $libro) {
         if (
-            str_contains(strtolower($libro['titulo']), $texto) ||
-            str_contains(strtolower($libro['autor']), $texto)
+            strtolower($libro['titulo']) === $texto ||
+            strtolower($libro['autor']) === $texto
         ) {
             $resultado[] = $libro;
         }

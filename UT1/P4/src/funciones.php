@@ -36,7 +36,7 @@ function filtrarDisponibles(array $libros): array
 
 function calcularMediaPaginas(array $libros): float
 {
-    if ($libros === []) {
+    if (count($libros) === 0) {
         return 0.0;
     }
 

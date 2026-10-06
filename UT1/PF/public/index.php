@@ -50,6 +50,7 @@ if ($genero !== null) {
                 — <?= htmlspecialchars($libro['genero']) ?>
                 — <?= $libro['paginas'] ?> páginas
                 — <?= $libro['disponible'] ? 'Disponible' : 'No disponible' ?>
+                - <a href="libro.php?id=<?php echo $libro['id']; ?>">Ver libro</a>
             </li>
         <?php endforeach; ?>
     </ul>
