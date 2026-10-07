@@ -151,7 +151,7 @@ $resultado = array_reduce(
     $videojuegos,
     fn(array $carry, array $v): array => [
         ...$carry,
-        $v['genero'] => ($carry[$v['genero']] ?? 0) + 1
+        $v['genero'] => ($carry[$v['genero']] ?? 0) + $v['precio'],
     ],
     []
 );
