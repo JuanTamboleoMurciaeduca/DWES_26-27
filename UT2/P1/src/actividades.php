@@ -17,9 +17,7 @@ function normalizarBusqueda(string $texto): string
 function obtenerCategorias(array $actividades): array
 {
     // TODO 2: extraer categorías sin duplicados en orden de aparición. 🤺
-    $categorias = array_column($actividades, 'categoria');
-    $categorias = array_unique($categorias);
-    return array_values($categorias);
+    return array_values(array_unique(array_column($actividades, 'categoria')));
 }
 
 function categoriaValida(string $categoria, array $categorias): bool
@@ -70,7 +68,8 @@ function ordenarActividades(array $actividades, string $orden): array
     // TODO 4: ordenar una copia según el criterio y desempatar por id.
     usort(
         $actividades,
-        fn(array $a, array $b): int => ($a[$orden] <=> $b[$orden]) === 0 ? $a['id'] <=> $b['id'] : $a[$orden] <=> $b[$orden],
+        fn(array $a, array $b): int => 
+            ($a[$orden] <=> $b[$orden]) === 0 ? $a['id'] <=> $b['id'] : $a[$orden] <=> $b[$orden],
     );
     return $actividades;
 }
