@@ -27,7 +27,7 @@ function categoriaValida(string $categoria, array $categorias): bool
 
 function plazasOcupadas(array $reservas, int $actividadId): int
 {
-    // TODO 5: sumar plazas de reservas confirmadas de esta actividad.
+    // TODO 5: sumar plazas de reservas confirmadas de esta actividad. 🤺
     $confirmadas = array_filter(
         $reservas,
         fn(array $a): bool =>
@@ -60,16 +60,29 @@ function filtrarActividades(
     string $categoria,
     bool $soloConPlazas
 ): array {
-    return [];
+
+    return array_filter(
+        $actividades,
+        fn(array $a): bool =>
+        // Filto por nombre
+        str_contains(normalizarBusqueda($a['nombre']), normalizarBusqueda($texto)) &&
+            // Filtro por categoría
+            ($categoria === '' ||
+                normalizarBusqueda($a['categoria']) === normalizarBusqueda($categoria)) &&
+            // Si soloConPlazas, libres > 0
+            (!$soloConPlazas || $a['libres'] > 0)
+    );
 }
 
 function ordenarActividades(array $actividades, string $orden): array
 {
-    // TODO 4: ordenar una copia según el criterio y desempatar por id.
+    // TODO 4: ordenar una copia según el criterio y desempatar por id. 🤺
     usort(
         $actividades,
-        fn(array $a, array $b): int => 
-            ($a[$orden] <=> $b[$orden]) === 0 ? $a['id'] <=> $b['id'] : $a[$orden] <=> $b[$orden],
+        fn(array $a, array $b): int =>
+        $orden === 'libres' ? 
+            (($a[$orden] <=> $b[$orden]) ?: $a['id'] <=> $b['id'])
+            : ((normalizarBusqueda($a[$orden]) <=> normalizarBusqueda($b[$orden])) ?: $a['id'] <=> $b['id']),
     );
     return $actividades;
 }
@@ -80,7 +93,7 @@ function resumirActividades(array $actividades): array
         'cantidad' => count($actividades),
         'capacidad' => array_reduce(
             $actividades,
-            fn(int $c, array $a): int => $c + $a['plazas'],
+            fn(int $c, array $a): int => $c + $a['capacidad'],
             0
         ),
         'ocupadas' => array_reduce(
@@ -96,11 +109,11 @@ function resumirActividades(array $actividades): array
         'hayCompletas' => array_any(
             $actividades,
             fn(array $a): bool => $a['libres'] === 0,
-        ), // TODO 7: comprobar si alguna está completa
+        ), // TODO 7: comprobar si alguna está completa 🤺
         'todasConPlazas' => array_all(
             $actividades,
             fn(array $a): bool => $a['libres'] > 0,
-        ), // TODO 8: comprobar si todas tienen plazas
+        ), // TODO 8: comprobar si todas tienen plazas 🤺
     ];
 }
 
@@ -119,7 +132,7 @@ function generarEtiquetas(array $actividades, string $prefijo = 'Actividad: '): 
             return $prefijo . limpiarEspacios($nombre);
         }
     );
-    // TODO 9: extraer nombres y usar una closure que capture el prefijo.
+    // TODO 9: extraer nombres y usar una closure que capture el prefijo. 🤺
 }
 
 // Función facilitada. La entrada web valida el id antes de llamar.
@@ -130,7 +143,7 @@ function normalizarId(int|string $id): int
 
 function buscarPorId(array $actividades, int|string $id): ?array
 {
-    // TODO 10: buscar por id en todas las actividades; id no es índice.
+    // TODO 10: buscar por id en todas las actividades; id no es índice. 🤺
     return array_find(
         $actividades,
         fn(array $a): bool => $a['id'] === normalizarId($id)
@@ -139,16 +152,16 @@ function buscarPorId(array $actividades, int|string $id): ?array
 
 function monitorVisible(?string $monitor): string
 {
-    // TODO 11: resolver el caso de monitor null.
-    return '';
+    // TODO 11: resolver el caso de monitor null. 🤺
+    return $monitor ?? 'Monitor pendiente';
 }
 
 function inicioNombre(string $nombre): string
 {
-    return substr(limpiarEspacios($nombre), 0, 3);
+    return mb_substr(limpiarEspacios($nombre), 0, 3, 'UTF-8');
 }
 
 function codigoValido(string $codigo): bool
 {
-    return preg_match('/DEP-[0-9]+-[0-9]+/', $codigo) === 1;
+    return preg_match('/^DEP-[0-9]{4}-[0-9]{4}$/', $codigo) === 1;
 }
