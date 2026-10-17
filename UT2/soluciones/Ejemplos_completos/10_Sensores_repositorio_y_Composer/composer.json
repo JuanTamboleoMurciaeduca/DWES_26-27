@@ -1,0 +1,18 @@
+{
+    "name": "aula/seguimiento-sensores",
+    "description": "Ejemplo de repositorio y servicio en memoria",
+    "type": "project",
+    "license": "proprietary",
+    "require": {
+        "php": ">=8.2",
+        "ext-mbstring": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Aula\\Sensores\\": "src/"
+        }
+    },
+    "scripts": {
+        "sensores": "@php bin/sensores.php"
+    }
+}
