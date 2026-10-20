@@ -1,0 +1,10 @@
+{
+    "name": "aula/seguimiento-sensores",
+    "description": "Ejemplo de repositorio y servicio en memoria",
+    "type": "project",
+    "license": "proprietary",
+    "require": {
+        "php": ">=8.2",
+        "ext-mbstring": "*"
+    }
+}
