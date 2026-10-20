@@ -36,6 +36,6 @@ final class Libro
 
     public function ficha(): string
     {
-        return $this->titulo . ' / ' . $this->autor->nombre . ' / ' . $this->categoria->nombre . ' / ' . $this->paginas . ' páginas';
+        return $this?->titulo === null ? 'Sin título' : $this->titulo . ' / ' . $this->autor->nombre . ' / ' . $this->categoria->nombre . ' / ' . $this->paginas . ' páginas';
     }
 }

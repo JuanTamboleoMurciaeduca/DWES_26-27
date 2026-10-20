@@ -32,6 +32,28 @@ foreach ($datos as $registro) {
 // Termina devolviendo Dune para conservar el estado inicial del catálogo.
 $mensajes = [];
 
+// $dune = $libros[0];
+// $otro = $libros[2];
+// print_r($dune);
+// echo '<br>';
+// print_r($otro);
+// echo '<br>';
+// $dune->prestar();
+// print_r($dune);
+// echo '<br>';
+// $dune->devolver();
+// print_r($dune);
+// echo '<br>';
+// $mensajes[] = $dune->ficha();
+// $mensajes[] = $otro->ficha();
+// // print_r($mensajes);
+
+// $alias = $dune;
+// $alias->prestar();
+// print_r($dune);
+// echo '<br>';
+// echo $alias === $dune ? 'Iguales' : 'No Iguales';
+
 // Lectura del formulario facilitada. La búsqueda conserva el texto escrito.
 $entrada = $_GET['q'] ?? '';
 $entradaBusqueda = is_string($entrada) ? $entrada : '';
