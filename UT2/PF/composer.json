@@ -1,0 +1,10 @@
+{
+    "name": "clase/alquileres",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Clase\\Alquileres\\": "src/"
+        }
+    },
+    "require": {}
+}
