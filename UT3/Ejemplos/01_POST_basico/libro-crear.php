@@ -19,5 +19,4 @@ if ($titulo === '') {
     exit('El título no puede estar vacío');
 }
 
-echo 'Libro recibido: ' .
-    htmlspecialchars($titulo, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+echo 'Libro recibido: ' . htmlspecialchars($titulo, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
