@@ -70,7 +70,7 @@ class BibliotecaService
                 "titulos" => ++$carry["titulos"],
                 "unidades" => $carry["unidades"] + $l->unidades(),
                 "paginas" => $carry["paginas"] + $l->paginas(),
-                "costeCentimos" => $carry["costeCentimoos"] + $l->costeReposicionesCentimos()
+                "costeCentimos" => $carry["costeCentimos"] + $l->costeReposicionesCentimos()
             ],
             ["titulos" => 0, "unidades" => 0, "paginas" => 0, "costeCentimos" => 0]
         );
