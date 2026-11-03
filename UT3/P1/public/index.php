@@ -9,5 +9,19 @@ use Juan\Biblioteca\Servicio\BibliotecaService;
 
 $bibService = new BibliotecaService($libros);
 
+$q = $_GET['q'] ?? '';
+$genero = $_GET['genero'] ?? '';
+$tipo = $GET_['tipo'] ?? '';
+$soloDestacados = isset($_GET['destacados']);
+
+$librosFiltrados = $bibService->filtrar(
+    $q,
+    $genero,
+    $tipo,
+    $soloDestacados
+);
+
+$filas = $bibService->filas($librosFiltrados);
+$resumen = $bibService->resumen($librosFiltrados);
 
 require dirname(__DIR__) . '/vistas/catalogo.php';
