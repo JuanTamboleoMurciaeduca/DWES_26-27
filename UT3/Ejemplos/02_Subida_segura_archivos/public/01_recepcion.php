@@ -1,9 +1,15 @@
 <?php
+
 declare(strict_types=1);
+
 require __DIR__ . '/../src/pagina.php';
+
 $error = errorPeticion();
+
 inicio('1. Recibir y diagnosticar', '3–13', $error !== null ? ['peticion' => $error] : []);
+
 ?>
+
 <p>Este primer paso muestra lo que PHP ha recibido. No mueve el temporal.</p>
 <form method="post" enctype="multipart/form-data">
     <p><label>Título <input name="titulo" value="Dune"></label></p>
@@ -12,9 +18,10 @@ inicio('1. Recibir y diagnosticar', '3–13', $error !== null ? ['peticion' => $
 </form>
 <h2>Configuración efectiva</h2>
 <dl>
-<?php foreach (['upload_max_filesize', 'post_max_size', 'max_file_uploads', 'upload_tmp_dir'] as $directiva): ?>
-    <dt><?= e($directiva) ?></dt><dd><?= e((string) ini_get($directiva)) ?: '(predeterminado del sistema)' ?></dd>
-<?php endforeach ?>
+    <?php foreach (['upload_max_filesize', 'post_max_size', 'max_file_uploads', 'upload_tmp_dir'] as $directiva): ?>
+        <dt><?= e($directiva) ?></dt>
+        <dd><?= e((string) ini_get($directiva)) ?: '(predeterminado del sistema)' ?></dd>
+    <?php endforeach ?>
 </dl>
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -33,4 +40,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     echo '<p>Al terminar esta petición, PHP elimina el temporal que no hemos movido.</p>';
 }
 ?>
-</body></html>
+</body>
+
+</html>

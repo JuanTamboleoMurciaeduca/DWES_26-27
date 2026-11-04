@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 // Funciones compartidas por los cinco ejemplos. No leen $_POST ni $_FILES.
@@ -179,8 +180,10 @@ function normalizarMultiples(mixed $grupo): array
         foreach ($claves as $clave) {
             $archivo[$clave] = $grupo[$clave][$i];
         }
-        if (!estructuraValida($archivo)
-            || !is_string($archivo['name']) || !is_string($archivo['type'])) {
+        if (
+            !estructuraValida($archivo)
+            || !is_string($archivo['name']) || !is_string($archivo['type'])
+        ) {
             throw new InvalidArgumentException('Archivo múltiple mal formado.');
         }
         if ($archivo['error'] !== UPLOAD_ERR_NO_FILE) {
@@ -199,10 +202,17 @@ function errorPeticion(): ?string
     $config = trim((string) ini_get('post_max_size'));
     $limite = (int) $config;
     $unidad = strtolower(substr($config, -1));
-    $limite *= match ($unidad) { 'g' => 1024 ** 3, 'm' => 1024 ** 2, 'k' => 1024, default => 1 };
+    $limite *= match ($unidad) {
+        'g' => 1024 ** 3,
+        'm' => 1024 ** 2,
+        'k' => 1024,
+        default => 1
+    };
     $longitud = $_SERVER['CONTENT_LENGTH'] ?? null;
-    if ($limite > 0 && is_string($longitud) && ctype_digit($longitud)
-        && (float) $longitud > $limite) {
+    if (
+        $limite > 0 && is_string($longitud) && ctype_digit($longitud)
+        && (float) $longitud > $limite
+    ) {
         return 'El cuerpo completo supera post_max_size. PHP puede vaciar $_POST y $_FILES.';
     }
     return null;
