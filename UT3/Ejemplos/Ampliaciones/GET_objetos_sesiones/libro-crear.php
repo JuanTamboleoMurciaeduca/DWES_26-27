@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/Libro.php';
+
 session_start();
 
 if (($_SERVER['REQUEST_METHOD'] ?? 'GET') !== 'POST') {
@@ -11,10 +12,12 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') !== 'POST') {
 }
 
 $entrada = $_POST['titulo'] ?? '';
+
 if (!is_string($entrada) || trim($entrada) === '') {
     http_response_code(400);
     exit('El título no puede estar vacío y debe ser texto');
 }
+
 $titulo = trim($entrada);
 
 $_SESSION['libros'] ??= [];

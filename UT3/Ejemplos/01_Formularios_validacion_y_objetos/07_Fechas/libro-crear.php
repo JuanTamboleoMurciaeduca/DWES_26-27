@@ -9,10 +9,12 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') !== 'POST') {
 
 $entradaTitulo = $_POST['titulo'] ?? '';
 $entradaFecha = $_POST['fecha'] ?? '';
+
 if (!is_string($entradaTitulo) || trim($entradaTitulo) === '') {
     http_response_code(400);
     exit('El título es obligatorio');
 }
+
 if (!is_string($entradaFecha)) {
     http_response_code(400);
     exit('La fecha debe ser texto');

@@ -5,6 +5,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/Validator.php';
 
 $metodo = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+
 if ($metodo !== 'GET' && $metodo !== 'POST') {
     http_response_code(405);
     exit('Método no permitido');

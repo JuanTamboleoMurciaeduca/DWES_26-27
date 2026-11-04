@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/12.5/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+         failOnWarning="true"
+         failOnRisky="true"
+         failOnPhpunitDeprecation="true">
+    <testsuites>
+        <testsuite name="Ejemplos por concepto">
+            <directory>01_Primera_prueba</directory>
+            <directory>02_Arrange_Act_Assert</directory>
+            <directory>04_assertSame</directory>
+            <directory>05_assertEquals</directory>
+            <directory>06_assertTrue</directory>
+            <directory>07_assertFalse</directory>
+            <directory>08_assertNull</directory>
+            <directory>09_assertCount</directory>
+            <directory>10_assertArrayHasKey</directory>
+            <directory>11_Excepcion</directory>
+            <directory>12_Proveedor_de_datos</directory>
+            <directory>13_Limites</directory>
+            <directory>14_setUp</directory>
+            <directory>15_tearDown</directory>
+            <directory>16_Colaboracion</directory>
+            <directory>17_Stub</directory>
+            <directory>18_Mock</directory>
+            <directory>19_Regresion</directory>
+            <directory>20_Tamano_archivo</directory>
+            <directory>21_MIME</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>

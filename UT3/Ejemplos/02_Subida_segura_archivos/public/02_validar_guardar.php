@@ -1,17 +1,22 @@
 <?php
 declare(strict_types=1);
+
 require __DIR__ . '/../src/pagina.php';
+
 $errores = $traza = [];
 $nombre = null;
+
 if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
     if (($error = errorPeticion()) !== null) {
         $errores['peticion'] = $error;
     } else {
         $validado = validarArchivo($_FILES['portada'] ?? null, true);
+
         if ($validado['error'] !== null) {
             $errores['portada'] = $validado['error'];
         } else {
             $traza[] = 'Forma, recepción, tamaño y MIME correctos: ' . $validado['mime'];
+
             try {
                 $nombre = guardarArchivo($validado);
                 $traza[] = 'Temporal movido con nombre generado: ' . $nombre;
@@ -22,6 +27,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
         }
     }
 }
+
 inicio('2. Validar y guardar', '6–22', $errores);
 ?>
 <p>Aquí la portada es obligatoria. Se aceptan JPEG, PNG y WebP de 1 byte a 2 MiB, ambos límites incluidos.</p>

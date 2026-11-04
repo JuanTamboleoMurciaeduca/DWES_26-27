@@ -43,43 +43,62 @@ function estructuraValida(mixed $archivo): bool
 function validarArchivo(mixed $archivo, bool $obligatorio = false): array
 {
     $resultado = ['error' => null, 'archivo' => null, 'mime' => null, 'extension' => null];
+
     if ($archivo === null) {
         $resultado['error'] = $obligatorio ? 'Selecciona una portada.' : null;
+
         return $resultado;
     }
+
     if (!estructuraValida($archivo)) {
         $resultado['error'] = 'Entrada no válida: se esperaba un único archivo.';
+
         return $resultado;
     }
+
     if ($archivo['error'] === UPLOAD_ERR_NO_FILE) {
         $resultado['error'] = $obligatorio ? 'Selecciona una portada.' : null;
+
         return $resultado;
     }
+
     if ($archivo['error'] !== UPLOAD_ERR_OK) {
         $resultado['error'] = mensajeRecepcion($archivo['error']);
+
         return $resultado;
     }
+
     if ($archivo['size'] <= 0 || $archivo['size'] > MAX_BYTES) {
         $resultado['error'] = 'La portada debe ocupar entre 1 byte y 2 MiB.';
+
         return $resultado;
     }
+
     // Defensa adicional: el origen debe ser una subida HTTP real de esta petición.
     if (!is_uploaded_file($archivo['tmp_name'])) {
         $resultado['error'] = 'El origen no es una subida HTTP válida.';
+
         return $resultado;
     }
+
     if (!class_exists(finfo::class)) {
         $resultado['error'] = 'El servidor necesita la extensión fileinfo.';
+
         return $resultado;
     }
+
     $mime = (new finfo(FILEINFO_MIME_TYPE))->file($archivo['tmp_name']);
+
     if ($mime === false || !isset(TIPOS[$mime])) {
         $resultado['error'] = 'Formato no permitido: utiliza JPEG, PNG o WebP.';
+
         return $resultado;
     }
+
     $resultado['archivo'] = $archivo;
     $resultado['mime'] = $mime;
     $resultado['extension'] = TIPOS[$mime]; // Nunca la extensión de name.
+
     return $resultado;
 }
 
@@ -89,32 +108,40 @@ function guardarArchivo(array $validado): ?string
     if ($validado['error'] !== null) {
         throw new LogicException('No se puede guardar un resultado con errores.');
     }
+
     if ($validado['archivo'] === null) {
         return null;
     }
+
     if (!is_dir(DIRECTORIO) || !is_writable(DIRECTORIO)) {
         throw new RuntimeException('Almacenamiento no disponible.');
     }
+
     // La comprobación file_exists de la diap. 20 no reserva un nombre.
     // Este bloqueo coordina los guardados de estos ejemplos mientras comprueban y mueven.
     // Todos los escritores deben respetarlo; no protege frente a procesos externos.
     $bloqueo = @fopen(__DIR__ . '/../storage/guardado.lock', 'c');
+
     if ($bloqueo === false) {
         throw new RuntimeException('No se pudo preparar el almacenamiento.');
     }
+
     try {
         if (!flock($bloqueo, LOCK_EX)) {
             throw new RuntimeException('No se pudo bloquear el almacenamiento.');
         }
+
         do {
             $nombre = bin2hex(random_bytes(16)) . '.' . $validado['extension'];
             $destino = DIRECTORIO . '/' . $nombre;
         } while (file_exists($destino));
+
         if (!@move_uploaded_file($validado['archivo']['tmp_name'], $destino)) {
             // El aviso nativo puede contener rutas internas; el usuario recibe un mensaje fijo.
             error_log('Falló move_uploaded_file al guardar una portada.');
             throw new RuntimeException('No se pudo guardar la portada.');
         }
+
         return $nombre;
     } finally {
         flock($bloqueo, LOCK_UN);
@@ -128,21 +155,29 @@ function retirarArchivo(?string $nombre): bool
     if ($nombre === null) {
         return true;
     }
+
     if (!nombreValido($nombre)) {
         throw new LogicException('Nombre de limpieza no válido.');
     }
+
     $ruta = DIRECTORIO . '/' . $nombre;
+
     if (is_link($ruta)) {
         error_log('Se rechazó un enlace en el almacenamiento de portadas.');
+
         return false;
     }
+
     if (!file_exists($ruta)) {
         return true;
     }
+
     if (!@unlink($ruta)) {
         error_log('No se pudo retirar una portada.');
+
         return false;
     }
+
     return true;
 }
 
@@ -153,43 +188,56 @@ function normalizarMultiples(mixed $grupo): array
     if ($grupo === null) {
         return [];
     }
+
     if (!is_array($grupo)) {
         throw new InvalidArgumentException('Entrada múltiple no válida.');
     }
+
     $claves = ['name', 'type', 'tmp_name', 'error', 'size'];
+
     foreach ($claves as $clave) {
         if (!isset($grupo[$clave]) || !is_array($grupo[$clave])) {
             throw new InvalidArgumentException('Se esperaba portadas[].');
         }
     }
+
     $indices = array_keys($grupo['error']);
+
     if (count($indices) > 3) {
         throw new InvalidArgumentException('Selecciona como máximo 3 portadas.');
     }
+
     foreach ($claves as $clave) {
         if (array_keys($grupo[$clave]) !== $indices) {
             throw new InvalidArgumentException('Los índices de los archivos no coinciden.');
         }
     }
+
     $archivos = [];
+
     foreach ($indices as $i) {
         if (!is_int($i) || $i < 0) {
             throw new InvalidArgumentException('Índice de archivo no válido.');
         }
+
         $archivo = [];
+
         foreach ($claves as $clave) {
             $archivo[$clave] = $grupo[$clave][$i];
         }
+
         if (
             !estructuraValida($archivo)
             || !is_string($archivo['name']) || !is_string($archivo['type'])
         ) {
             throw new InvalidArgumentException('Archivo múltiple mal formado.');
         }
+
         if ($archivo['error'] !== UPLOAD_ERR_NO_FILE) {
             $archivos[$i] = $archivo;
         }
     }
+
     return $archivos;
 }
 
@@ -199,6 +247,7 @@ function errorPeticion(): ?string
     if (($_SERVER['REQUEST_METHOD'] ?? 'GET') !== 'POST') {
         return null;
     }
+
     $config = trim((string) ini_get('post_max_size'));
     $limite = (int) $config;
     $unidad = strtolower(substr($config, -1));
@@ -209,11 +258,13 @@ function errorPeticion(): ?string
         default => 1
     };
     $longitud = $_SERVER['CONTENT_LENGTH'] ?? null;
+
     if (
         $limite > 0 && is_string($longitud) && ctype_digit($longitud)
         && (float) $longitud > $limite
     ) {
         return 'El cuerpo completo supera post_max_size. PHP puede vaciar $_POST y $_FILES.';
     }
+
     return null;
 }

@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
+
 require __DIR__ . '/../src/pagina.php';
+
 inicio('Presentación 02 · Subida segura de archivos · Ejemplos 01–05', '3–34');
 ?>
 <p>Corresponden a la presentación UT3_02_Subida_segura_archivos (34 diapositivas).

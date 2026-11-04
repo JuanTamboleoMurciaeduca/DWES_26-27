@@ -11,6 +11,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') !== 'GET') {
 $libros = ['Dune', 'El Hobbit', '1984', 'Fundación', 'Neuromante'];
 
 $entrada = $_GET['q'] ?? '';
+
 if (!is_string($entrada)) {
     http_response_code(400);
     exit('La búsqueda debe ser texto');
@@ -38,10 +39,13 @@ function e(string $valor): string
     <ul>
         <?php
         $encontrados = 0;
+
         foreach ($libros as $titulo):
+
             if ($busqueda !== '' && stripos($titulo, $busqueda) === false) {
                 continue;
             }
+
             $encontrados++;
         ?>
             <li><?= e($titulo) ?></li>

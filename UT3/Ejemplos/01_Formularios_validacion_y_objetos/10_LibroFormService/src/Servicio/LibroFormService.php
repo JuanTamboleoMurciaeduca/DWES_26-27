@@ -11,7 +11,9 @@ use ValueError;
 
 final class LibroFormService
 {
-    public function __construct(private Validator $v) {}
+    public function __construct(private Validator $v)
+    {
+    }
 
     // Este método pertenece al servicio, igual que procesar().
     public function validarPaginas(mixed $entrada): ?string
@@ -48,20 +50,25 @@ final class LibroFormService
 
         foreach ($campos as $campo) {
             $valor = $entrada[$campo] ?? '';
+
             if (!is_string($valor)) {
                 $errores[$campo] = 'Debe ser texto.';
                 $valor = '';
             }
+
             $valores[$campo] = trim($valor);
         }
 
         // 2. Reutilizar Validator para los dos textos obligatorios.
         $mensajes = ['titulo' => 'Escribe el título.', 'autor' => 'Escribe el autor.'];
+
         foreach ($mensajes as $campo => $mensaje) {
             if (isset($errores[$campo])) {
                 continue; // No sustituir "Debe ser texto" por "Escribe el título".
             }
+
             $error = $this->v->requerido($valores[$campo], $mensaje);
+
             if ($error !== null) {
                 $errores[$campo] = $error;
             }
@@ -75,10 +82,12 @@ final class LibroFormService
         // 3. Páginas sigue siendo texto. "12abc" debe fallar antes de convertir.
         if (!isset($errores['paginas'])) {
             $error = $this->validarPaginas($valores['paginas']);
+
             if ($error !== null) {
                 $errores['paginas'] = $error;
             }
         }
+
         if (!isset($errores['genero'])
             && !in_array($valores['genero'], Libro::GENEROS, true)) {
             $errores['genero'] = 'Elige un género válido.';
@@ -87,12 +96,14 @@ final class LibroFormService
         // 4. La fecha vacía es opcional; una fecha escrita debe ser posible y exacta.
         $fecha = null;
         $textoFecha = $valores['fechaAlta'];
+
         if (!isset($errores['fechaAlta']) && $textoFecha !== '') {
             try {
                 $fecha = DateTimeImmutable::createFromFormat('!Y-m-d', $textoFecha);
             } catch (ValueError) {
                 $fecha = false;
             }
+
             if ($fecha === false || $fecha->format('Y-m-d') !== $textoFecha) {
                 $errores['fechaAlta'] = 'Fecha no válida.';
             }
@@ -100,6 +111,7 @@ final class LibroFormService
 
         // 5. Solo hay datos para el modelo cuando TODOS los campos son válidos.
         $datos = null;
+
         if ($errores === []) {
             $datos = [
                 'titulo' => $valores['titulo'],

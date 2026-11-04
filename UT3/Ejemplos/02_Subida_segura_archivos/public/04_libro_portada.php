@@ -1,8 +1,10 @@
 <?php
 declare(strict_types=1);
+
 require __DIR__ . '/../src/pagina.php';
 require __DIR__ . '/../src/Libro.php';
 require __DIR__ . '/../src/escenario.php';
+
 $valores = ['titulo' => 'Dune', 'paginas' => '688', 'modo' => 'alta'];
 $errores = $traza = [];
 $libro = null;
@@ -17,6 +19,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
         // 1. Validar el formulario. Conservar solo cadenas; no convertir arrays a texto.
         foreach ($valores as $campo => $inicial) {
             $entrada = $_POST[$campo] ?? '';
+
             if (!is_string($entrada)) {
                 $errores[$campo] = 'Se esperaba un valor simple.';
                 $valores[$campo] = '';
@@ -24,21 +27,27 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
                 $valores[$campo] = trim($entrada);
             }
         }
+
         if ($valores['titulo'] === '' || mb_strlen($valores['titulo'], 'UTF-8') > 120) {
             $errores['titulo'] = 'Escribe un título de 1 a 120 caracteres.';
         }
+
         $paginas = filter_var($valores['paginas'], FILTER_VALIDATE_INT,
             ['options' => ['min_range' => 1, 'max_range' => 3000]]);
+
         if ($paginas === false) {
             $errores['paginas'] = 'Escribe un entero entre 1 y 3000.';
         }
+
         if (!in_array($valores['modo'], ['alta', 'editar'], true)) {
             $errores['modo'] = 'Operación no válida.';
         }
+
         $simularFallo = ($_POST['fallar'] ?? null) === '1';
 
         // Preparar el estado previo de la demostración de edición, incluso si hay error.
         $repo = new LibroRepositoryMemoria();
+
         if ($valores['modo'] === 'editar') {
             try {
                 $anterior = prepararPortadaAnterior();
@@ -53,29 +62,35 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
 
         // 2. Validar la portada opcional. Todavía no se mueve nada del usuario.
         $validado = validarArchivo($_FILES['portada'] ?? null);
+
         if ($validado['error'] !== null) {
             $errores['portada'] = $validado['error'];
         }
+
         if ($errores !== []) {
             $traza[] = 'Hay errores: no se mueve la nueva portada ni se guarda el libro.';
         } else {
             // Construir el candidato antes de mover: también puede fallar su constructor.
             $candidato = new Libro($valores['titulo'], $paginas, $anterior);
             $traza[] = 'Formulario y portada válidos. Libro candidato construido.';
+
             try {
                 // 3 y 4. Preparar destino y mover. null significa conservar la referencia.
                 $nuevo = guardarArchivo($validado);
                 $traza[] = $nuevo === null ? 'Sin archivo nuevo: se conserva la portada.'
                     : 'Nueva portada movida: ' . $nuevo;
+
                 if ($nuevo !== null) {
                     $candidato->cambiarPortada($nuevo);
                 }
+
                 // 5. Solo ahora se ejecuta la operación del repositorio.
                 if ($valores['modo'] === 'editar') {
                     $repo->actualizar($id, $candidato, $simularFallo);
                 } else {
                     $id = $repo->guardar($candidato, $simularFallo);
                 }
+
                 $libro = $repo->obtener($id);
                 $exito = true;
                 $traza[] = 'Operación correcta. Referencia del libro actualizada.';
@@ -88,6 +103,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
                     : 'La nueva referencia no se guarda; limpieza pendiente en el servidor.';
                 error_log($e->getMessage());
             }
+
             // Fuera del catch: un fallo al retirar la antigua no deshace el éxito.
             if ($exito && $nuevo !== null && $anterior !== null && $anterior !== $nuevo) {
                 $traza[] = retirarArchivo($anterior)
@@ -97,6 +113,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
         }
     }
 }
+
 inicio('4. Alta, edición y compensación', '7–8, 28–32 y 34', $errores);
 ?>
 <p>La portada es opcional. Cualquier error de título, páginas o archivo impide mover la subida.</p>
@@ -117,7 +134,13 @@ El repositorio está en memoria: otro envío reconstruye el escenario. Las imág
 <?php if ($libro !== null): ?>
     <h2><?= $exito ? 'Libro tras el éxito' : 'Libro anterior conservado' ?></h2>
     <p><?= e($libro->titulo()) ?> · <?= $libro->paginas() ?> páginas</p>
-    <?php if ($libro->portada() !== null) { imagen($libro->portada()); } else { echo '<p>Sin portada.</p>'; } ?>
+    <?php
+    if ($libro->portada() !== null) {
+        imagen($libro->portada());
+    } else {
+        echo '<p>Sin portada.</p>';
+    }
+    ?>
 <?php endif ?>
 <p>Prueba: alta sin archivo; páginas 0 con un PNG válido; texto.jpg; edición sin archivo;
 edición con imagen nueva; edición con imagen nueva y fallo simulado.</p>

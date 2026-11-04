@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Modelo\Libro;
 
 require_once __DIR__ . '/src/Modelo/Libro.php';
+
 header('Content-Type: text/html; charset=UTF-8');
 ?>
 <!doctype html>
@@ -19,6 +20,7 @@ new Libro('Dune', 'Frank Herbert', -20);</pre>
     <?php foreach ([412, -20] as $paginas): ?>
         <h2>Páginas: <?= $paginas ?></h2>
         <?php
+
         try {
             $libro = new Libro('Dune', 'Frank Herbert', $paginas);
             echo '<p>Objeto creado con ' . $libro->paginas() . ' páginas.</p>';

@@ -24,19 +24,23 @@ inicio('1. Recibir y diagnosticar', '3–13', $error !== null ? ['peticion' => $
     <?php endforeach ?>
 </dl>
 <?php
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($error !== null) {
         resultado(['peticion' => $error], []);
     }
+
     // Escapar también la salida de diagnóstico: name y type vienen del cliente.
     echo '<h2>$_POST</h2><pre>' . e(var_export($_POST, true)) . '</pre>';
     echo '<h2>$_FILES</h2><pre>' . e(var_export($_FILES, true)) . '</pre>';
     $archivo = $_FILES['portada'] ?? null;
+
     if ($archivo !== null && !estructuraValida($archivo)) {
         echo '<p>Entrada mal formada: se esperaba portada, no portada[].</p>';
     } elseif ($archivo !== null) {
         echo '<p>' . e(mensajeRecepcion($archivo['error']) ?? 'Recepción completa; todavía NO validado.') . '</p>';
     }
+
     echo '<p>Al terminar esta petición, PHP elimina el temporal que no hemos movido.</p>';
 }
 ?>

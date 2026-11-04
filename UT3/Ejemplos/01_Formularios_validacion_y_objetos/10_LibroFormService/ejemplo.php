@@ -14,6 +14,7 @@ require_once __DIR__ . '/src/Servicio/LibroFormService.php';
 
 header('Content-Type: text/html; charset=UTF-8');
 $metodo = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+
 if ($metodo !== 'GET' && $metodo !== 'POST') {
     header('Allow: GET, POST');
     http_response_code(405);
@@ -45,6 +46,7 @@ if ($metodo === 'POST') {
     } else {
         // El servicio NO crea ni guarda libros. El controlador toma esa decisión.
         $datos = $resultado['datos'];
+
         try {
             $libro = new Libro(
                 $datos['titulo'], $datos['autor'], $datos['paginas'],

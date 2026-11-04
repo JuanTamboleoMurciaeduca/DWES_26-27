@@ -11,14 +11,17 @@ $genero = $_POST['genero'] ?? '';
 $observaciones = $_POST['observaciones'] ?? '';
 
 $permitidos = ['ciencia', 'fantasia'];
+
 if (!is_string($genero) || !in_array($genero, $permitidos, true)) {
     http_response_code(400);
     exit('Género no válido');
 }
+
 if (!is_string($observaciones)) {
     http_response_code(400);
     exit('Las observaciones deben ser texto');
 }
+
 $observaciones = trim($observaciones);
 
 echo 'Género: ' . htmlspecialchars($genero, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');

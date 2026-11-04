@@ -8,10 +8,12 @@ function e(string $texto): string
 }
 
 $metodo = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+
 if ($metodo !== 'GET' && $metodo !== 'POST') {
     http_response_code(405);
     exit('Método no permitido');
 }
+
 $esPost = $metodo === 'POST';
 $valores = [
     'titulo' => '',
@@ -28,17 +30,21 @@ $datos = null;
 if ($esPost) {
     foreach ($valores as $campo => $inicial) {
         $entrada = $_POST[$campo] ?? '';
+
         if (!is_string($entrada)) {
             $errores[$campo] = 'Debe ser texto.';
             $entrada = '';
         }
+
         $valores[$campo] = trim($entrada);
     }
 
     $marca = $_POST['destacado'] ?? null;
+
     if ($marca !== null && $marca !== '1') {
         $errores['destacado'] = 'Casilla no válida.';
     }
+
     $destacado = $marca === '1';
 
     // PASO 2. Validar campo por campo.
@@ -55,6 +61,7 @@ if ($esPost) {
     }
 
     $paginas = filter_var($valores['paginas'], FILTER_VALIDATE_INT);
+
     if (!isset($errores['paginas']) &&
         ($paginas === false || $paginas < 1 || $paginas > 3000)) {
         $errores['paginas'] = 'Entre 1 y 3000 páginas.';
@@ -66,12 +73,14 @@ if ($esPost) {
     }
 
     $fecha = null;
+
     if (!isset($errores['fechaAlta']) && $valores['fechaAlta'] !== '') {
         try {
             $fecha = DateTimeImmutable::createFromFormat('!Y-m-d', $valores['fechaAlta']);
         } catch (ValueError) {
             $fecha = false;
         }
+
         if ($fecha === false || $fecha->format('Y-m-d') !== $valores['fechaAlta']) {
             $errores['fechaAlta'] = 'Fecha no válida.';
         }

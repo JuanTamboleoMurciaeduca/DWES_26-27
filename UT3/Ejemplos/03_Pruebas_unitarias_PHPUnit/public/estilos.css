@@ -1,0 +1,45 @@
+body {
+    max-width: 66rem;
+    margin: 2rem auto;
+    padding: 0 1.25rem;
+    font: 1rem/1.6 system-ui, sans-serif;
+    color: #172b36;
+}
+
+h1, h2 {
+    line-height: 1.25;
+}
+
+h2 {
+    margin-top: 2rem;
+}
+
+a {
+    color: #086776;
+}
+
+li {
+    margin: .5rem 0;
+}
+
+pre {
+    padding: 1.25rem;
+    overflow-x: auto;
+    background: #142d38;
+    color: #f2f7f8;
+}
+
+pre code {
+    font: 1rem/1.65 Consolas, monospace;
+    tab-size: 4;
+}
+
+p code {
+    overflow-wrap: anywhere;
+}
+
+.nota {
+    padding: 1rem 1.25rem;
+    border-left: 4px solid #087f8c;
+    background: #f0f6f7;
+}

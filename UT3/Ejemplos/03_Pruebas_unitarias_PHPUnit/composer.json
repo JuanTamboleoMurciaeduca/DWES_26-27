@@ -1,0 +1,18 @@
+{
+    "name": "docencia/ut3-ejemplos-phpunit",
+    "description": "Ejemplos pequeños por concepto de PHPUnit para explicar en clase",
+    "type": "project",
+    "require": {
+        "php": ">=8.3",
+        "ext-mbstring": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^12.5"
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "config": {
+        "sort-packages": true
+    }
+}

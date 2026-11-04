@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
+
 require __DIR__ . '/../src/pagina.php';
+
 inicio('3. Guardar y publicar son pasos distintos', '23–27');
 $nombre = $_GET['nombre'] ?? '';
 ?>
