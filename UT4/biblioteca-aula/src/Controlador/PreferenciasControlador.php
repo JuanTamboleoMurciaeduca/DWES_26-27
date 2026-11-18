@@ -1,0 +1,33 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Controlador;
+
+use function App\Soporte\redirigir;
+
+final class PreferenciasControlador extends Controlador
+{
+    public function guardar(): void
+    {
+        $tema = $_POST['tema'] ?? null;
+
+        if (in_array($tema, ['claro', 'oscuro'], true)) {
+            $this->guardarCookie('tema', $tema);
+            redirigir('index.php');
+        }
+        http_response_code(400);
+        exit;
+    }
+
+    private function guardarCookie(string $cookie, string $valor): void
+    {
+        setcookie($cookie, $valor, [
+            'expires' => time() + 30 * 86400,
+            'path' => '/',
+            'secure' => false,
+            'httponly' => true,
+            'samesite' => 'Lax',
+        ]);
+    }
+}
