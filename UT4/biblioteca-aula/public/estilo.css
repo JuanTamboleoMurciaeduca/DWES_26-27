@@ -71,3 +71,7 @@ body.oscuro {
 body.oscuro a {
     color: #a7eef2;
 }
+
+body.compacta .libros li {
+    padding-block: .2rem;
+}

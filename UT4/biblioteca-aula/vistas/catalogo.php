@@ -7,9 +7,19 @@ use function App\Soporte\e; ?>
     <label for="tema">Tema</label>
     <select id="tema" name="tema">
         <option value="claro">Claro</option>
-        <option value="oscuro">Oscuro</option>
+        <option value="oscuro" <?= $tema === 'oscuro' ? 'selected' : '' ?>>Oscuro</option>
     </select>
-    <button type="submit">Guardar Tema</button>
+    <button>Guardar tema</button>
+</form>
+
+<form method="post" action="preferencias.php">
+    <label for="densidad">Espaciado del catálogo</label>
+    <select id="densidad" name="densidad">
+        <option value="normal">Normal</option>
+        <option value="compacta"
+            <?= $densidad === 'compacta' ? 'selected' : '' ?>>Compacto</option>
+    </select>
+    <button>Guardar espaciado</button>
 </form>
 
 <form method="get" action="index.php">

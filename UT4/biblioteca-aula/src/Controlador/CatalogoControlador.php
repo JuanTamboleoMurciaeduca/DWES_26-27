@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controlador;
@@ -16,9 +17,10 @@ final class CatalogoControlador extends Controlador
         if ($q !== '') {
             $libros = array_filter(
                 $libros,
-                static fn ($libro) => stripos($libro->titulo, $q) !== false
+                static fn($libro) => stripos($libro->titulo, $q) !== false
             );
         }
+        $favoritos = $_SESSION['favoritos'] ?? [];
         $this->vista('catalogo', compact('libros', 'q'));
     }
 }
