@@ -31,6 +31,10 @@ final class FavoritosControlador extends Controlador
         $favoritos = $_SESSION['favoritos'] ?? [];
         if (!in_array($id, $favoritos, true)) {
             $favoritos[] = $id;
+            $_SESSION['flash'] = 'Libro añadido a favoritos';
+        } else {
+            $key = array_search($id, $favoritos, true);
+            unset($favoritos[$key]);
         }
 
         $_SESSION['favoritos'] = $favoritos;

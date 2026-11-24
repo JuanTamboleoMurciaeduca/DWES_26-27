@@ -16,3 +16,10 @@ function iniciarSesion(): void
         'cookie_secure' => false
     ]);
 }
+
+function flash(): ?string
+{
+    $aviso = $_SESSION['flash'] ?? null;
+    unset($_SESSION['flash']);
+    return $aviso;
+}

@@ -36,13 +36,17 @@ use function App\Soporte\e; ?>
             <li><?= e($libro->titulo) ?></li>
             <?php if (in_array($libro->id, $favoritos, true)): ?>
                 <p>Favorito</p>
+                <form method="post" action="add-favs.php">
+                    <input type="hidden" name='id' value="<?= $libro->id ?>">
+                    <button>Quitar favoritos</button>
+                </form>
             <?php else: ?>
                 <p>No favorito</p>
+                <form method="post" action="add-favs.php">
+                    <input type="hidden" name='id' value="<?= $libro->id ?>">
+                    <button>Añadir a favoritos</button>
+                </form>
             <?php endif; ?>
-            <form method="post" action="add-favs.php">
-                <input type="hidden" name='id' value="<?= $libro->id ?>">
-                <button>Añadir a favoritos</button>
-            </form>
         <?php endforeach; ?>
     </ul>
 <?php endif; ?>
