@@ -11,11 +11,13 @@ final class FavoritosControlador extends Controlador
 {
     public function cambiar(): void
     {
-        soloMetodos($_POST);
+        soloMetodos(['POST']);
 
         $entrada = $_POST['id'] ?? null;
         // Validar la entrada
-        $id = is_string($entrada);
+        $id = is_string($entrada) ?
+            filter_var($entrada, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]])
+            : false;
         if ($id === false) {
             http_response_code(400);
             exit;

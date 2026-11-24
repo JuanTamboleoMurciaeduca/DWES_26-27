@@ -21,6 +21,6 @@ final class CatalogoControlador extends Controlador
             );
         }
         $favoritos = $_SESSION['favoritos'] ?? [];
-        $this->vista('catalogo', compact('libros', 'q'));
+        $this->vista('catalogo', compact('libros', 'q', 'favoritos'));
     }
 }
