@@ -7,4 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     '4dc8aa147e310123af05ab19ba42344c' => $baseDir . '/src/Soporte/html.php',
+    '85f694c7191f072da96291a18d23c847' => $baseDir . '/src/Soporte/sesion.php',
 );
