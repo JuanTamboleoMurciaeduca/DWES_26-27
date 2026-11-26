@@ -12,4 +12,7 @@ $catalogo = new Catalogo(new ArchivoJson(dirname(__DIR__) . '/var/libros.json'))
 
 $usuarios = new JsonUsuarioRepository(new ArchivoJson(dirname(__DIR__) . '/var/usuarios.json'));
 
-return compact('catalogo', 'usuarios');
+$usuarioId = $_SESSION['usuario_id'] ?? null;
+$usuarioActual = is_int($usuarioId) ? $usuarios->buscarPorId($usuarioId) : null;
+
+return compact('catalogo', 'usuarios', 'usuarioActual');
