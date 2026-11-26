@@ -1,0 +1,16 @@
+[
+    {
+        "id": 1,
+        "nombre": "Juan",
+        "email": "juan@correo.com",
+        "passwordHash": "$2y$12$HfbQcjwJavS34lxEGQgmKuIH34i1fi34Uvob76l31LAiO\/2IEXnjq",
+        "rol": "ROLE_USER"
+    },
+    {
+        "id": 2,
+        "nombre": "pepe",
+        "email": "pepe@correo.com",
+        "passwordHash": "$2y$12$ozBA4Qg02lwPwRhs5QZg7eIA.kZTQt9mu.769DTPadhD.pJ3Vu0lW",
+        "rol": "ROLE_USER"
+    }
+]

@@ -8,7 +8,6 @@ use App\Model\Usuario;
 use App\Repository\UsuarioRepository;
 use DomainException;
 use Override;
-use RuntimeException;
 
 final class JsonUsuarioRepository implements UsuarioRepository
 {

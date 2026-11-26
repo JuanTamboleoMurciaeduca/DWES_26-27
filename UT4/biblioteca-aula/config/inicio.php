@@ -1,7 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
-use App\Repository\{ArchivoJson, Catalogo};
+use App\Repository\{ArchivoJson, Catalogo, JsonUsuarioRepository};
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
@@ -9,4 +10,6 @@ require dirname(__DIR__) . '/vendor/autoload.php';
 
 $catalogo = new Catalogo(new ArchivoJson(dirname(__DIR__) . '/var/libros.json'));
 
-return compact('catalogo');
+$usuarios = new JsonUsuarioRepository(new ArchivoJson(dirname(__DIR__) . '/var/usuarios.json'));
+
+return compact('catalogo', 'usuarios');
