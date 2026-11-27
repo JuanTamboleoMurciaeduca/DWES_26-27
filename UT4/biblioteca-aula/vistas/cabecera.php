@@ -18,6 +18,9 @@
                 <a href="login.php">Iniciar sesión</a>
             <?php else: ?>
                 <a href="cuenta.php">Mi cuenta</a>
+                <form method="post" action="logout.php">
+                    <button>Cerrar sesión</button>
+                </form>
             <?php endif; ?>
         </nav>
     </header>

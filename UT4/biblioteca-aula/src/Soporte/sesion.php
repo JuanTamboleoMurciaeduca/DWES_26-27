@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Soporte;
 
+use RuntimeException;
+
 function iniciarSesion(): void
 {
     session_name('biblioteca');
@@ -14,6 +16,23 @@ function iniciarSesion(): void
         'cookie_httponly' => true,
         'cookie_samesite' => 'Lax',
         'cookie_secure' => false
+    ]);
+}
+
+function cerrarSesion(): void
+{
+    $cookie = session_get_cookie_params();
+    $_SESSION = [];
+    if (!session_destroy()) {
+        throw new RuntimeException('No se pudo cerrar sesión');
+    }
+    setcookie(session_name(), '', [
+        'expires' => time() - 3600,
+        'path' => $cookie['path'],
+        'domain' => $cookie['domain'],
+        'secure' => $cookie['secure'],
+        'httponly' => $cookie['httponly'],
+        'samesite' => $cookie['samesite']
     ]);
 }
 
